@@ -21,6 +21,8 @@ def show_menu():
 
 
 def main():
+    master_password = getpass("Enter master password: ")
+
     while True:
         show_menu()
         choice = input("\nChoose an option: ")
@@ -30,10 +32,10 @@ def main():
             username = input("Enter username/email: ")
             password = getpass("Enter password: ")
 
-            add_entry(site, username, password)
+            add_entry(site, username, password, master_password)
             console.print("[green]Password saved successfully.[/green]")
         elif choice == "2":
-            entries = get_entries()
+            entries = get_entries(master_password)
 
             if not entries:
                 console.print("[yellow]No passwords saved yet.[/yellow]")
@@ -44,7 +46,7 @@ def main():
                     console.print(f"Password: {entry['password']}")
         elif choice == "3":
             search_term = input("Enter site/app name to search: ")
-            results = search_entries(search_term)
+            results = search_entries(search_term, master_password)
 
             if not results:
                 console.print("[yellow]No matching passwords found.[/yellow]")
@@ -64,7 +66,7 @@ def main():
             password = generate_password(length)
             console.print(f"\nGenerated password: [green]{password}[/green]")
         elif choice == "5":
-            entries = get_entries()
+            entries = get_entries(master_password)
 
             if not entries:
                 console.print("[yellow]No passwords saved yet.[/yellow]")
@@ -77,7 +79,7 @@ def main():
                 if delete_choice.isdigit():
                     delete_index = int(delete_choice) - 1
 
-                    if delete_entry(delete_index):
+                    if delete_entry(delete_index, master_password):
                         console.print("[green]Password deleted successfully.[/green]")
                     else:
                         console.print("[red]Invalid entry number.[/red]")
