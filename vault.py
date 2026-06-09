@@ -31,3 +31,13 @@ def add_entry(site, username, password):
 
 def get_entries():
     return load_vault()
+
+def search_entries(search_term):
+    vault = load_vault()
+    results = []
+
+    for entry in vault:
+        if search_term.lower() in entry["site"].lower():
+            results.append(entry)
+
+    return results

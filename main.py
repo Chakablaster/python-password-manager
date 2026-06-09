@@ -1,8 +1,7 @@
 from rich.console import Console
 from rich.panel import Panel
 from password_generator import generate_password
-from vault import add_entry, get_entries
-
+from vault import add_entry, get_entries, search_entries
 console = Console()
 
 
@@ -40,7 +39,16 @@ def main():
                     console.print(f"Username: {entry['username']}")
                     console.print(f"Password: {entry['password']}")
         elif choice == "3":
-            console.print("Search password selected")
+            search_term = input("Enter site/app name to search: ")
+            results = search_entries(search_term)
+
+            if not results:
+                console.print("[yellow]No matching passwords found.[/yellow]")
+            else:
+                for index, entry in enumerate(results, start=1):
+                    console.print(f"\n[bold]{index}. {entry['site']}[/bold]")
+                    console.print(f"Username: {entry['username']}")
+                    console.print(f"Password: {entry['password']}")
         elif choice == "4":
             length = input("Enter password length or press Enter for 16: ")
 
