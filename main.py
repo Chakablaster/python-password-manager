@@ -1,6 +1,7 @@
 from rich.console import Console
 from rich.panel import Panel
 from password_generator import generate_password
+from vault import add_entry
 
 console = Console()
 
@@ -22,7 +23,12 @@ def main():
         choice = input("\nChoose an option: ")
 
         if choice == "1":
-            console.print("Add password selected")
+            site = input("Enter site/app name: ")
+            username = input("Enter username/email: ")
+            password = input("Enter password: ")
+
+            add_entry(site, username, password)
+            console.print("[green]Password saved successfully.[/green]")
         elif choice == "2":
             console.print("View saved passwords selected")
         elif choice == "3":
