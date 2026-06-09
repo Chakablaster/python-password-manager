@@ -114,6 +114,7 @@ def main():
                         if 0 <= copy_index < len(entries):
                             pyperclip.copy(entries[copy_index]["password"])
                             console.print("[green]Password copied to clipboard.[/green]")
+                            console.print("[yellow]Remember to clear your clipboard after using it.[/yellow]")
                         else:
                             console.print("[red]Invalid entry number.[/red]")
                     else:
