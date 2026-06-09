@@ -1,7 +1,8 @@
-from cryptography.fernet import InvalidToken
+import pyperclip
 from rich.console import Console
 from rich.panel import Panel
 from getpass import getpass
+from cryptography.fernet import InvalidToken
 from password_generator import generate_password
 from vault import add_entry, get_entries, search_entries, delete_entry
 
@@ -18,7 +19,8 @@ def show_menu():
     console.print("[3] Search password")
     console.print("[4] Generate password")
     console.print("[5] Delete password")
-    console.print("[6] Exit")
+    console.print("[6] Copy password")
+    console.print("[7] Exit")
 
 
 def main():
@@ -96,6 +98,28 @@ def main():
                         console.print("[red]Please enter a valid number.[/red]")
 
             elif choice == "6":
+                entries = get_entries(master_password)
+
+                if not entries:
+                    console.print("[yellow]No passwords saved yet.[/yellow]")
+                else:
+                    for index, entry in enumerate(entries, start=1):
+                        console.print(f"{index}. {entry['site']} - {entry['username']}")
+
+                    copy_choice = input("\nEnter the number to copy password: ")
+
+                    if copy_choice.isdigit():
+                        copy_index = int(copy_choice) - 1
+
+                        if 0 <= copy_index < len(entries):
+                            pyperclip.copy(entries[copy_index]["password"])
+                            console.print("[green]Password copied to clipboard.[/green]")
+                        else:
+                            console.print("[red]Invalid entry number.[/red]")
+                    else:
+                        console.print("[red]Please enter a valid number.[/red]")            
+            
+            elif choice == "7":
                 console.print("Goodbye!")
                 break
 
