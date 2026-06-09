@@ -46,7 +46,7 @@ def main():
                     for index, entry in enumerate(entries, start=1):
                         console.print(f"\n[bold]{index}. {entry['site']}[/bold]")
                         console.print(f"Username: {entry['username']}")
-                        console.print(f"Password: {entry['password']}")
+                        console.print("Password: ********")
 
             elif choice == "3":
                 search_term = input("Enter site/app name to search: ")
@@ -58,7 +58,7 @@ def main():
                     for index, entry in enumerate(results, start=1):
                         console.print(f"\n[bold]{index}. {entry['site']}[/bold]")
                         console.print(f"Username: {entry['username']}")
-                        console.print(f"Password: {entry['password']}")
+                        console.print("Password: ********")
 
             elif choice == "4":
                 length = input("Enter password length or press Enter for 16: ")
