@@ -65,8 +65,11 @@ def main():
 
                 if length == "":
                     length = 16
-                else:
+                elif length.isdigit():
                     length = int(length)
+                else:
+                    console.print("[red]Please enter a valid number.[/red]")
+                    continue
 
                 password = generate_password(length)
                 console.print(f"\nGenerated password: [green]{password}[/green]")
