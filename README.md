@@ -3,6 +3,10 @@
 A secure local password manager built with Python.  
 It stores saved credentials in an encrypted vault file and uses a master password to unlock them.
 
+## Screenshot
+
+![CLI Menu](assets/screenshots/cli-menu.png)
+
 ## Features
 
 - Add saved passwords
