@@ -226,3 +226,4 @@ vault.enc
 *.key
 .env
 config.json
+salt.bin
