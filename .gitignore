@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Password manager sensitive files
+vault.enc
+*.enc
+*.db
+*.sqlite
+*.key
+.env
+config.json
