@@ -1,7 +1,7 @@
 from rich.console import Console
 from rich.panel import Panel
 from password_generator import generate_password
-from vault import add_entry
+from vault import add_entry, get_entries
 
 console = Console()
 
@@ -30,7 +30,15 @@ def main():
             add_entry(site, username, password)
             console.print("[green]Password saved successfully.[/green]")
         elif choice == "2":
-            console.print("View saved passwords selected")
+            entries = get_entries()
+
+            if not entries:
+                console.print("[yellow]No passwords saved yet.[/yellow]")
+            else:
+                for index, entry in enumerate(entries, start=1):
+                    console.print(f"\n[bold]{index}. {entry['site']}[/bold]")
+                    console.print(f"Username: {entry['username']}")
+                    console.print(f"Password: {entry['password']}")
         elif choice == "3":
             console.print("Search password selected")
         elif choice == "4":

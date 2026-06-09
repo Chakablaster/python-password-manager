@@ -28,3 +28,6 @@ def add_entry(site, username, password):
 
     vault.append(entry)
     save_vault(vault)
+
+def get_entries():
+    return load_vault()
