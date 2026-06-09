@@ -1,7 +1,9 @@
 from rich.console import Console
 from rich.panel import Panel
+from getpass import getpass
 from password_generator import generate_password
 from vault import add_entry, get_entries, search_entries, delete_entry
+
 
 
 console = Console()
@@ -26,7 +28,7 @@ def main():
         if choice == "1":
             site = input("Enter site/app name: ")
             username = input("Enter username/email: ")
-            password = input("Enter password: ")
+            password = getpass("Enter password: ")
 
             add_entry(site, username, password)
             console.print("[green]Password saved successfully.[/green]")
