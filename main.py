@@ -1,7 +1,9 @@
 from rich.console import Console
 from rich.panel import Panel
 from password_generator import generate_password
-from vault import add_entry, get_entries, search_entries
+from vault import add_entry, get_entries, search_entries, delete_entry
+
+
 console = Console()
 
 
@@ -60,7 +62,25 @@ def main():
             password = generate_password(length)
             console.print(f"\nGenerated password: [green]{password}[/green]")
         elif choice == "5":
-            console.print("Delete password selected")
+            entries = get_entries()
+
+            if not entries:
+                console.print("[yellow]No passwords saved yet.[/yellow]")
+            else:
+                for index, entry in enumerate(entries, start=1):
+                    console.print(f"{index}. {entry['site']} - {entry['username']}")
+
+                delete_choice = input("\nEnter the number to delete: ")
+
+                if delete_choice.isdigit():
+                    delete_index = int(delete_choice) - 1
+
+                    if delete_entry(delete_index):
+                        console.print("[green]Password deleted successfully.[/green]")
+                    else:
+                        console.print("[red]Invalid entry number.[/red]")
+                else:
+                    console.print("[red]Please enter a valid number.[/red]")
         elif choice == "6":
             console.print("Goodbye!")
             break

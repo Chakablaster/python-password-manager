@@ -41,3 +41,13 @@ def search_entries(search_term):
             results.append(entry)
 
     return results
+
+def delete_entry(index):
+    vault = load_vault()
+
+    if index < 0 or index >= len(vault):
+        return False
+
+    vault.pop(index)
+    save_vault(vault)
+    return True
