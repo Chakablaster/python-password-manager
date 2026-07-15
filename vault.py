@@ -5,6 +5,8 @@ from crypto_utils import encrypt_data, decrypt_data
 
 VAULT_FILE = "vault.enc"
 
+def vault_exists():
+    return os.path.exists(VAULT_FILE)
 
 def load_vault(master_password):
     if not os.path.exists(VAULT_FILE):
@@ -64,4 +66,8 @@ def delete_entry(index, master_password):
 
     vault.pop(index)
     save_vault(vault, master_password)
+    return True
+
+def unlock_vault(master_password):
+    load_vault(master_password)
     return True

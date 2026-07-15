@@ -4,12 +4,8 @@ from rich.panel import Panel
 from getpass import getpass
 from cryptography.fernet import InvalidToken
 from password_generator import generate_password
-from vault import add_entry, get_entries, search_entries, delete_entry
-
-
-
+from vault import add_entry, get_entries, search_entries, delete_entry, vault_exists, unlock_vault
 console = Console()
-
 
 def show_menu():
     console.print(Panel.fit("Python Password Manager", title="PyVault"))
@@ -22,9 +18,26 @@ def show_menu():
     console.print("[6] Copy password")
     console.print("[7] Exit")
 
+def setup_master_password():
+    if vault_exists():
+        master_password = getpass("Enter master password: ")
+        unlock_vault(master_password)
+        return master_password
+
+    console.print("[yellow]No vault found. Let's create a new vault.[/yellow]")
+
+    while True:
+        master_password = getpass("Create master password: ")
+        confirm_password = getpass("Confirm master password: ")
+
+        if master_password == confirm_password:
+            console.print("[green]Vault created successfully.[/green]")
+            return master_password
+
+        console.print("[red]Master passwords do not match. Please try again.[/red]")
 
 def main():
-    master_password = getpass("Enter master password: ")
+    master_password = setup_master_password()
 
     while True:
         show_menu()
@@ -130,6 +143,8 @@ def main():
         except InvalidToken:
             console.print("[red]Wrong master password. Cannot unlock vault.[/red]")
 
-
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except InvalidToken:
+        console.print("[red]Wrong master password. Exiting.[/red]")
