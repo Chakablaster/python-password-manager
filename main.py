@@ -59,9 +59,13 @@ def main():
 
         try:
             if choice == "1":
-                site = input("Enter site/app name: ")
-                username = input("Enter username/email: ")
-                password = getpass("Enter password: ")
+                site = input("Enter site/app name: ").strip()
+                username = input("Enter username/email: ").strip()
+                password = getpass("Enter password: ").strip()
+
+                if not site or not username or not password:
+                    console.print("[red]Site, username, and password cannot be empty.[/red]")
+                    continue
 
                 add_entry(site, username, password, master_password)
                 console.print("[green]Password saved successfully.[/green]")
