@@ -61,7 +61,17 @@ def main():
             if choice == "1":
                 site = input("Enter site/app name: ").strip()
                 username = input("Enter username/email: ").strip()
-                password = getpass("Enter password: ").strip()
+
+                use_generated = input("Generate password? (y/n): ").strip().lower()
+
+                if use_generated == "y":
+                    password = generate_password()
+                    console.print(f"[green]Generated password:[/green] {password}")
+                elif use_generated == "n":
+                    password = getpass("Enter password: ").strip()
+                else:
+                    console.print("[red]Please enter y or n.[/red]")
+                    continue
 
                 if not site or not username or not password:
                     console.print("[red]Site, username, and password cannot be empty.[/red]")
