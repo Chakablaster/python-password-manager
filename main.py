@@ -1,3 +1,4 @@
+import threading
 import pyperclip
 from rich.console import Console
 from rich.panel import Panel
@@ -17,6 +18,19 @@ def show_menu():
     console.print("[5] Delete password")
     console.print("[6] Copy password")
     console.print("[7] Exit")
+
+def clear_clipboard_after_delay(password, delay=15):
+    def clear_clipboard():
+        try:
+            if pyperclip.paste() == password:
+                pyperclip.copy("")
+                console.print("[yellow]Clipboard cleared.[/yellow]")
+        except pyperclip.PyperclipException:
+            console.print("[red]Could not clear clipboard.[/red]")
+
+    timer = threading.Timer(delay, clear_clipboard)
+    timer.daemon = True
+    timer.start()
 
 def setup_master_password():
     if vault_exists():
@@ -125,9 +139,13 @@ def main():
                         copy_index = int(copy_choice) - 1
 
                         if 0 <= copy_index < len(entries):
-                            pyperclip.copy(entries[copy_index]["password"])
+                            password = entries[copy_index]["password"]
+
+                            pyperclip.copy(password)
                             console.print("[green]Password copied to clipboard.[/green]")
-                            console.print("[yellow]Remember to clear your clipboard after using it.[/yellow]")
+                            console.print("[yellow]Clipboard will clear in 15 seconds.[/yellow]")
+
+                            clear_clipboard_after_delay(password)
                         else:
                             console.print("[red]Invalid entry number.[/red]")
                     else:
